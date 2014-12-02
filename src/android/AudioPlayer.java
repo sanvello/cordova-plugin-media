@@ -1,3 +1,5 @@
+// Lines 145/146 are modified to output AMR NB.
+
 /*
        Licensed to the Apache Software Foundation (ASF) under one
        or more contributor license agreements.  See the NOTICE file
@@ -138,8 +140,10 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
         case NONE:
             this.audioFile = file;
             this.recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            this.recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT); // THREE_GPP);
-            this.recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT); //AMR_NB);
+
+            // NOTE We are using AMR_NB.
+            this.recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+            this.recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             this.recorder.setOutputFile(this.tempFile);
             try {
                 this.recorder.prepare();
