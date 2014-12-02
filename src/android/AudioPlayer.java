@@ -85,7 +85,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
     private MediaPlayer player = null;      // Audio player object
     private boolean prepareOnly = true;     // playback after file prepare flag
     private int seekOnPrepared = 0;     // seek to this location once media is prepared
-
+    private Float pendingVolume = null;     // Allow volume to be set before player is created.
     /**
      * Constructor.
      *
@@ -439,7 +439,10 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
      * @param volume
      */
     public void setVolume(float volume) {
-        this.player.setVolume(volume, volume);
+        if (this.player != null)
+            this.player.setVolume(volume, volume);
+        else
+            pendingVolume = volume;
     }
 
     /**
@@ -472,6 +475,10 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                 case MEDIA_NONE:
                     if (this.player == null) {
                         this.player = new MediaPlayer();
+
+                        if (this.pendingVolume != null) {
+                            setVolume(this.pendingVolume);
+                        }
                     }
                     try {
                         this.loadAudioFile(file);
