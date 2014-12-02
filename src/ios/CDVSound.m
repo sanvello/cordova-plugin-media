@@ -547,8 +547,8 @@
                 [audioFile.recorder stop];
             }
             if (self.avSession) {
-                // [self.avSession setActive:NO error:nil];
-                // self.avSession = nil;
+                [self.avSession setActive:NO error:nil];
+                self.avSession = nil;
             }
             [[self soundCache] removeObjectForKey:mediaId];
             NSLog(@"Media with id %@ released", mediaId);
@@ -712,7 +712,8 @@
         jsString = [NSString stringWithFormat:@"%@(\"%@\",%d,%@);", @"cordova.require('org.apache.cordova.media.Media').onStatus", mediaId, MEDIA_ERROR, [self createMediaErrorWithCode:MEDIA_ERR_DECODE message:nil]];
     }
     if (self.avSession) {
-        [self.avSession setActive:NO error:nil];
+        // This seems to prevent multiple audio files on iOS8.
+        // [self.avSession setActive:NO error:nil];
     }
     [self.commandDelegate evalJs:jsString];
 }
@@ -735,7 +736,8 @@
         jsString = [NSString stringWithFormat:@"%@(\"%@\",%d,%@);", @"cordova.require('org.apache.cordova.media.Media').onStatus", mediaId, MEDIA_ERROR, [self createMediaErrorWithCode:MEDIA_ERR_DECODE message:nil]];
     }
     if (self.avSession) {
-        [self.avSession setActive:NO error:nil];
+        // This seems to prevent multiple audio files on iOS8.
+        // [self.avSession setActive:NO error:nil];
     }
     [self.commandDelegate evalJs:jsString];
 }
