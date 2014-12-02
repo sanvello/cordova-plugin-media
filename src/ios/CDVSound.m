@@ -26,11 +26,50 @@
 #define HTTP_SCHEME_PREFIX @"http://"
 #define HTTPS_SCHEME_PREFIX @"https://"
 #define CDVFILE_PREFIX @"cdvfile://"
-#define RECORDING_WAV @"wav"
+#define RECORDING_WAV @"m4a"
 
 @implementation CDVSound
 
 @synthesize soundCache, avSession;
+
+/* 
+ * These two methods are added to allow us to pause and resume recording.
+ */
+- (void)resumeRecordingAudio:(CDVInvokedUrlCommand*)command
+ {
+    NSString* mediaId = [command.arguments objectAtIndex:0];
+
+    CDVAudioFile* audioFile = [[self soundCache] objectForKey:mediaId];
+    NSString* jsString = nil;
+
+    if ((audioFile != nil) && (audioFile.recorder != nil)) {
+        NSLog(@"Resumed recording audio sample '%@'", audioFile.resourcePath);
+        [audioFile.recorder record];
+        // no callback - that will happen in audioRecorderDidFinishRecording
+    }
+    // ignore if no media recording
+    if (jsString) {
+        [self.commandDelegate evalJs:jsString];
+    }
+}
+
+- (void)pauseRecordingAudio:(CDVInvokedUrlCommand*)command
+ {
+    NSString* mediaId = [command.arguments objectAtIndex:0];
+
+    CDVAudioFile* audioFile = [[self soundCache] objectForKey:mediaId];
+    NSString* jsString = nil;
+
+    if ((audioFile != nil) && (audioFile.recorder != nil)) {
+        NSLog(@"Paused recording audio sample '%@'", audioFile.resourcePath);
+        [audioFile.recorder pause];
+        // no callback - that will happen in audioRecorderDidFinishRecording
+    }
+    // ignore if no media recording
+    if (jsString) {
+        [self.commandDelegate evalJs:jsString];
+    }
+}
 
 - (NSURL*)urlForResource:(NSString*)resourcePath
 {
@@ -508,8 +547,8 @@
                 [audioFile.recorder stop];
             }
             if (self.avSession) {
-                [self.avSession setActive:NO error:nil];
-                self.avSession = nil;
+                // [self.avSession setActive:NO error:nil];
+                // self.avSession = nil;
             }
             [[self soundCache] removeObjectForKey:mediaId];
             NSLog(@"Media with id %@ released", mediaId);
@@ -568,9 +607,16 @@
                     return;
                 }
             }
+
+            NSDictionary *recordSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSNumber numberWithInt: kAudioFormatMPEG4AAC], AVFormatIDKey,
+                                [NSNumber numberWithFloat:32000.0], AVSampleRateKey,
+                                [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
+                                nil];
             
             // create a new recorder for each start record
-            audioFile.recorder = [[CDVAudioRecorder alloc] initWithURL:audioFile.resourceURL settings:nil error:&error];
+            // audioFile.recorder = [[CDVAudioRecorder alloc] initWithURL:audioFile.resourceURL settings:nil error:&error];
+            audioFile.recorder = [[CDVAudioRecorder alloc] initWithURL:audioFile.resourceURL settings:recordSettings error:&error];
             
             bool recordingSuccess = NO;
             if (error == nil) {
