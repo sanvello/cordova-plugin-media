@@ -1,23 +1,25 @@
-<!---
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
+<!--
+# license: Licensed to the Apache Software Foundation (ASF) under one
+#         or more contributor license agreements.  See the NOTICE file
+#         distributed with this work for additional information
+#         regarding copyright ownership.  The ASF licenses this file
+#         to you under the Apache License, Version 2.0 (the
+#         "License"); you may not use this file except in compliance
+#         with the License.  You may obtain a copy of the License at
+#
+#           http://www.apache.org/licenses/LICENSE-2.0
+#
+#         Unless required by applicable law or agreed to in writing,
+#         software distributed under the License is distributed on an
+#         "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#         KIND, either express or implied.  See the License for the
+#         specific language governing permissions and limitations
+#         under the License.
 -->
 
 # cordova-plugin-media
+
+[![Build Status](https://travis-ci.org/apache/cordova-plugin-media.svg)](https://travis-ci.org/apache/cordova-plugin-media)
 
 Plugin daje możliwość nagrywania i odtwarzania plików audio na urządzeniu.
 
@@ -40,20 +42,20 @@ Chociaż w globalnym zasięgu, to nie dostępne dopiero po `deviceready` imprezi
 
 ## Obsługiwane platformy
 
-*   Android
-*   BlackBerry 10
-*   iOS
-*   Windows Phone 7 i 8
-*   Tizen
-*   Windows
+  * Android
+  * BlackBerry 10
+  * iOS
+  * Windows Phone 7 i 8
+  * Tizen
+  * Windows 8
+  * Windows
+  * Przeglądarka
 
 ## Windows Phone dziwactwa
 
-*   Tylko jeden plik mogą być zagrany w tył w czasie.
+  * Tylko jeden plik mogą być zagrany w tył w czasie.
 
-*   Istnieją ścisłe ograniczenia na jak aplikacja współdziała z innymi mediami. Zobacz [Microsoft dokumentacji szczegóły][1].
-
- [1]: http://msdn.microsoft.com/en-us/library/windowsphone/develop/hh184838(v=vs.92).aspx
+  * Istnieją ścisłe ograniczenia na jak aplikacja współdziała z innymi mediami. Zobacz [Microsoft dokumentacji szczegóły](http://msdn.microsoft.com/en-us/library/windowsphone/develop/hh184838(v=vs.92).aspx).
 
 ## Media
 
@@ -62,53 +64,53 @@ Chociaż w globalnym zasięgu, to nie dostępne dopiero po `deviceready` imprezi
 
 ### Parametry
 
-*   **src**: URI zawierający zawartość audio. *(DOMString)*
+  * **src**: URI zawierający zawartość audio. *(DOMString)*
 
-*   **mediaSuccess**: (opcjonalne) wywołania zwrotnego, który wykonuje po `Media` obiektu została zakończona bieżącej gry, rekordu lub działania stop. *(Funkcja)*
+  * **mediaSuccess**: (opcjonalne) wywołania zwrotnego, który wykonuje po `Media` obiektu została zakończona bieżącej gry, rekordu lub działania stop. *(Funkcja)*
 
-*   **mediaError**: (opcjonalne) wywołania zwrotnego, która wykonuje w przypadku wystąpienia błędu. *(Funkcja)*
+  * **mediaError**: (opcjonalne) wywołania zwrotnego, która wykonuje w przypadku wystąpienia błędu. *(Funkcja)*
 
-*   **mediaStatus**: (opcjonalne) wywołania zwrotnego, który wykonuje wskazać zmiany statusu. *(Funkcja)*
+  * **mediaStatus**: (opcjonalne) wywołania zwrotnego, który wykonuje wskazać zmiany statusu. *(Funkcja)*
 
 ### Stałe
 
 Poniższe stałe są zgłaszane jako parametr tylko do wywołania zwrotnego `mediaStatus`:
 
-*   `Media.MEDIA_NONE`= 0;
-*   `Media.MEDIA_STARTING`= 1;
-*   `Media.MEDIA_RUNNING`= 2;
-*   `Media.MEDIA_PAUSED`= 3;
-*   `Media.MEDIA_STOPPED`= 4;
+  * `Media.MEDIA_NONE`= 0;
+  * `Media.MEDIA_STARTING`= 1;
+  * `Media.MEDIA_RUNNING`= 2;
+  * `Media.MEDIA_PAUSED`= 3;
+  * `Media.MEDIA_STOPPED`= 4;
 
 ### Metody
 
-*   `media.getCurrentPosition`: Zwraca bieżącej pozycji w pliku audio.
+  * `media.getCurrentPosition`: Zwraca bieżącej pozycji w pliku audio.
 
-*   `media.getDuration`: Zwraca czas trwania pliku audio.
+  * `media.getDuration`: Zwraca czas trwania pliku audio.
 
-*   `media.play`: Rozpoczęcie lub wznowienie odtwarzania pliku audio.
+  * `media.play`: Rozpoczęcie lub wznowienie odtwarzania pliku audio.
 
-*   `media.pause`: Wstrzymanie odtwarzania pliku audio.
+  * `media.pause`: Wstrzymanie odtwarzania pliku audio.
 
-*   `media.release`: Zwalnia zasoby audio system operacyjny.
+  * `media.release`: Zwalnia zasoby audio system operacyjny.
 
-*   `media.seekTo`: Porusza się pozycji w pliku audio.
+  * `media.seekTo`: Porusza się pozycji w pliku audio.
 
-*   `media.setVolume`: Ustaw głośność odtwarzania dźwięku.
+  * `media.setVolume`: Ustaw głośność odtwarzania dźwięku.
 
-*   `media.startRecord`: Nagrywanie pliku audio.
+  * `media.startRecord`: Nagrywanie pliku audio.
 
-*   `media.stopRecord`: Zatrzymaj nagrywanie pliku audio.
+  * `media.stopRecord`: Zatrzymaj nagrywanie pliku audio.
 
-*   `media.stop`: Zatrzymania odtwarzania pliku audio.
+  * `media.stop`: Zatrzymania odtwarzania pliku audio.
 
 ### Parametry dodatkowe ReadOnly
 
-*   **stanowisko**: stanowisko w odtwarzaniu dźwięku, w kilka sekund.
+  * **stanowisko**: stanowisko w odtwarzaniu dźwięku, w kilka sekund.
     
-    *   Nie jest automatycznie aktualizowana podczas odtwarzania; wywołanie `getCurrentPosition` aktualizacji.
+      * Nie jest automatycznie aktualizowana podczas odtwarzania; wywołanie `getCurrentPosition` aktualizacji.
 
-*   **czas**: trwania mediów, w kilka sekund.
+  * **czas**: trwania mediów, w kilka sekund.
 
 ## media.getCurrentPosition
 
@@ -119,9 +121,9 @@ Zwraca bieżącą pozycję w pliku audio. Również aktualizacje obiektu `Media`
 
 ### Parametry
 
-*   **mediaSuccess**: wywołania zwrotnego, który jest przekazywany bieżącej pozycji w kilka sekund.
+  * **mediaSuccess**: wywołania zwrotnego, który jest przekazywany bieżącej pozycji w kilka sekund.
 
-*   **mediaError**: (opcjonalne) wywołanie zwrotne do wykonać, jeśli wystąpi błąd.
+  * **mediaError**: (opcjonalne) wywołanie zwrotne do wykonać, jeśli wystąpi błąd.
 
 ### Szybki przykład
 
@@ -235,19 +237,19 @@ Rozpoczyna się lub wznawia odtwarzanie pliku audio.
 
 ### Dziwactwa iOS
 
-*   **numberOfLoops**: przekazać tę opcję, aby `play` Metoda, aby określić ile razy chcesz, pliku multimedialnego do gry, np.:
+  * **numberOfLoops**: przekazać tę opcję, aby `play` Metoda, aby określić ile razy chcesz, pliku multimedialnego do gry, np.:
     
         var myMedia = new Media("http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3")
         myMedia.play({ numberOfLoops: 2 })
         
 
-*   **playAudioWhenScreenIsLocked**: przekazać tę opcję, aby `play` Metoda, aby określić, czy chcesz umożliwić odtwarzanie, gdy ekran jest zablokowana. Jeśli zestaw `true` (wartość domyślna), stan przycisku Wycisz sprzętu jest ignorowane, np.:
+  * **playAudioWhenScreenIsLocked**: przekazać tę opcję, aby `play` Metoda, aby określić, czy chcesz umożliwić odtwarzanie, gdy ekran jest zablokowana. Jeśli zestaw `true` (wartość domyślna), stan przycisku Wycisz sprzętu jest ignorowane, np.:
     
         var myMedia = new Media("http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3")
         myMedia.play({ playAudioWhenScreenIsLocked : false })
         
 
-*   **kolejność wyszukiwania plików**: gdy tylko nazwa pliku lub ścieżka prosta pod warunkiem, iOS wyszukiwania w `www` katalogu, pliku, a następnie w aplikacji `documents/tmp` katalogu:
+  * **kolejność wyszukiwania plików**: gdy tylko nazwa pliku lub ścieżka prosta pod warunkiem, iOS wyszukiwania w `www` katalogu, pliku, a następnie w aplikacji `documents/tmp` katalogu:
     
         var myMedia = new Media("audio/beer.mp3")
         myMedia.play()  // first looks for file in www/audio/beer.mp3 then in <application>/documents/tmp/audio/beer.mp3
@@ -280,7 +282,7 @@ Ustawia bieżącej pozycji w pliku audio.
 
 ### Parametry
 
-*   **milisekund**: stanowisko ustala pozycję odtwarzania w audio, w milisekundach.
+  * **milisekund**: stanowisko ustala pozycję odtwarzania w audio, w milisekundach.
 
 ### Szybki przykład
 
@@ -296,7 +298,7 @@ Ustawia bieżącej pozycji w pliku audio.
 
 ### Jeżyna 10 dziwactwa
 
-*   Nie obsługiwane na urządzeniach BlackBerry OS w wersji 5.
+  * Nie obsługiwane na urządzeniach BlackBerry OS w wersji 5.
 
 ## media.setVolume
 
@@ -307,12 +309,12 @@ Ustaw głośność pliku audio.
 
 ### Parametry
 
-*   **wielkość**: wielkość ustawić odtwarzanie. Wartość musi być z zakresu od 0.0 do 1.0.
+  * **wielkość**: wielkość ustawić odtwarzanie. Wartość musi być z zakresu od 0.0 do 1.0.
 
 ### Obsługiwane platformy
 
-*   Android
-*   iOS
+  * Android
+  * iOS
 
 ### Szybki przykład
 
@@ -354,10 +356,10 @@ Rozpoczyna nagrywanie pliku audio.
 
 ### Obsługiwane platformy
 
-*   Android
-*   iOS
-*   Windows Phone 7 i 8
-*   Windows
+  * Android
+  * iOS
+  * Windows Phone 7 i 8
+  * Windows
 
 ### Szybki przykład
 
@@ -383,29 +385,31 @@ Rozpoczyna nagrywanie pliku audio.
 
 ### Dziwactwa Androida
 
-*   Urządzenia z systemem Android nagrywanie dźwięku w formacie Adaptive Multi-Rate. Określony plik powinien kończyć się rozszerzeniem *AMR* .
-*   Głośności sprzętu są okablowane do wielkości nośnika, a wszelkie obiekty multimedialne są żywe. Po raz ostatni Media utworzony obiekt ma `release()` wezwał go, głośności przywrócić ich domyślne zachowanie. Kontrole są również reset nawigacji strony, jak to wszystkie obiekty multimedialne.
+  * Urządzenia z systemem Android nagrywanie dźwięku w formacie Adaptive Multi-Rate. Określony plik powinien kończyć się rozszerzeniem *AMR* .
+  * Głośności sprzętu są okablowane do wielkości nośnika, a wszelkie obiekty multimedialne są żywe. Po raz ostatni Media utworzony obiekt ma `release()` wezwał go, głośności przywrócić ich domyślne zachowanie. Kontrole są również reset nawigacji strony, jak to wszystkie obiekty multimedialne.
 
 ### Dziwactwa iOS
 
-*   iOS tylko rekordy do plików typu *.wav* i zwraca błąd, jeśli nazwa pliku rozszerzenie jest nie prawidłowe.
+  * iOS tylko rekordy do plików typu *.wav* i zwraca błąd, jeśli nazwa pliku rozszerzenie jest nie prawidłowe.
 
-*   Jeśli nie podano pełną ścieżkę, nagrywanie jest umieszczony w aplikacji `documents/tmp` katalogu. To mogą być dostępne za pośrednictwem `File` za pomocą interfejsu API `LocalFileSystem.TEMPORARY` . Każdy podkatalog określony w rekordowym czasie musi już istnieć.
+  * Jeśli nie podano pełną ścieżkę, nagrywanie jest umieszczony w aplikacji `documents/tmp` katalogu. To mogą być dostępne za pośrednictwem `File` za pomocą interfejsu API `LocalFileSystem.TEMPORARY` . Każdy podkatalog określony w rekordowym czasie musi już istnieć.
 
-*   Pliki mogą być zapisywane i grał z powrotem za pomocą dokumentów URI:
+  * Pliki mogą być zapisywane i grał z powrotem za pomocą dokumentów URI:
     
         var myMedia = new Media("documents://beer.mp3")
         
 
 ### Windows dziwactwa
 
-*   Jeśli nie podano pełną ścieżkę, nagrywanie jest umieszczony w katalogu AppData/temp. To mogą być dostępne za pośrednictwem `Plik` Za pomocą interfejsu API `LocalFileSystem.TEMPORARY` lub "ms-appdata: temp / / / /<filename>"URI.
+  * Urządzenia systemu Windows może używać MP3, M4A i formaty WMA rejestrowane audio. Jednak w większości przypadków nie jest możliwe wykorzystanie MP3 do nagrywania dźwięku na urządzenia *Windows Phone 8.1* , ponieważ jest enkoder MP3 [nie wysłane z Windows Phone](https://msdn.microsoft.com/en-us/library/windows/apps/windows.media.mediaproperties.mediaencodingprofile.createmp3.aspx).
 
-*   Każdy podkatalog określony w rekordowym czasie musi już istnieć.
+  * Jeśli nie podano pełną ścieżkę, nagrywanie jest umieszczony w katalogu AppData/temp. To mogą być dostępne za pośrednictwem `Plik` Za pomocą interfejsu API `LocalFileSystem.TEMPORARY` lub "ms-appdata: temp / / / /<filename>"URI.
+
+  * Każdy podkatalog określony w rekordowym czasie musi już istnieć.
 
 ### Dziwactwa Tizen
 
-*   Nie obsługiwane na Tizen urządzenia.
+  * Nie obsługiwane na Tizen urządzenia.
 
 ## media.stop
 
@@ -450,10 +454,10 @@ Zatrzymuje nagrywanie pliku audio.
 
 ### Obsługiwane platformy
 
-*   Android
-*   iOS
-*   Windows Phone 7 i 8
-*   Windows
+  * Android
+  * iOS
+  * Windows Phone 7 i 8
+  * Windows
 
 ### Szybki przykład
 
@@ -485,7 +489,7 @@ Zatrzymuje nagrywanie pliku audio.
 
 ### Dziwactwa Tizen
 
-*   Nie obsługiwane na Tizen urządzenia.
+  * Nie obsługiwane na Tizen urządzenia.
 
 ## MediaError
 
@@ -493,13 +497,13 @@ Gdy wystąpi błąd, funkcja wywołania zwrotnego `mediaError` zwracany jest obi
 
 ### Właściwości
 
-*   **Kod**: jeden z kodów błędów wstępnie zdefiniowanych poniżej.
+  * **Kod**: jeden z kodów błędów wstępnie zdefiniowanych poniżej.
 
-*   **wiadomość**: komunikat o błędzie, opisując szczegóły błędu.
+  * **wiadomość**: komunikat o błędzie, opisując szczegóły błędu.
 
 ### Stałe
 
-*   `MediaError.MEDIA_ERR_ABORTED`= 1
-*   `MediaError.MEDIA_ERR_NETWORK`= 2
-*   `MediaError.MEDIA_ERR_DECODE`= 3
-*   `MediaError.MEDIA_ERR_NONE_SUPPORTED`= 4
+  * `MediaError.MEDIA_ERR_ABORTED`= 1
+  * `MediaError.MEDIA_ERR_NETWORK`= 2
+  * `MediaError.MEDIA_ERR_DECODE`= 3
+  * `MediaError.MEDIA_ERR_NONE_SUPPORTED`= 4

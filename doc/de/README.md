@@ -1,23 +1,25 @@
-<!---
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
+<!--
+# license: Licensed to the Apache Software Foundation (ASF) under one
+#         or more contributor license agreements.  See the NOTICE file
+#         distributed with this work for additional information
+#         regarding copyright ownership.  The ASF licenses this file
+#         to you under the Apache License, Version 2.0 (the
+#         "License"); you may not use this file except in compliance
+#         with the License.  You may obtain a copy of the License at
+#
+#           http://www.apache.org/licenses/LICENSE-2.0
+#
+#         Unless required by applicable law or agreed to in writing,
+#         software distributed under the License is distributed on an
+#         "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#         KIND, either express or implied.  See the License for the
+#         specific language governing permissions and limitations
+#         under the License.
 -->
 
 # cordova-plugin-media
+
+[![Build Status](https://travis-ci.org/apache/cordova-plugin-media.svg)](https://travis-ci.org/apache/cordova-plugin-media)
 
 Dieses Plugin bietet die Möglichkeit zum Aufzeichnen und Wiedergeben von audio-Dateien auf einem Gerät.
 
@@ -40,20 +42,20 @@ Obwohl im globalen Gültigkeitsbereich, steht es nicht bis nach dem `deviceready
 
 ## Unterstützte Plattformen
 
-*   Android
-*   BlackBerry 10
-*   iOS
-*   Windows Phone 7 und 8
-*   Tizen
-*   Windows
+  * Android
+  * BlackBerry 10
+  * iOS
+  * Windows Phone 7 und 8
+  * Tizen
+  * Windows 8
+  * Windows
+  * Browser
 
 ## Windows Phone Macken
 
-*   Nur eine Mediendatei kann gleichzeitig abgespielt werden.
+  * Nur eine Mediendatei kann gleichzeitig abgespielt werden.
 
-*   Es gibt strenge Beschränkungen, wie Ihre Anwendung mit anderen Medien interagiert. Finden Sie in der [Microsoft-Dokumentation für details][1].
-
- [1]: http://msdn.microsoft.com/en-us/library/windowsphone/develop/hh184838(v=vs.92).aspx
+  * Es gibt strenge Beschränkungen, wie Ihre Anwendung mit anderen Medien interagiert. Finden Sie in der [Microsoft-Dokumentation für details](http://msdn.microsoft.com/en-us/library/windowsphone/develop/hh184838(v=vs.92).aspx).
 
 ## Medien
 
@@ -62,53 +64,53 @@ Obwohl im globalen Gültigkeitsbereich, steht es nicht bis nach dem `deviceready
 
 ### Parameter
 
-*   **Src**: ein URI mit der audio-Inhalte. *(DOM-String und enthält)*
+  * **Src**: ein URI mit der audio-Inhalte. *(DOM-String und enthält)*
 
-*   **MediaSuccess**: (Optional) der Rückruf, der nach dem führt ein `Media` -Objekt abgeschlossen hat, die aktuelle Wiedergabe, Aufzeichnung oder Stop-Action. *(Funktion)*
+  * **MediaSuccess**: (Optional) der Rückruf, der nach dem führt ein `Media` -Objekt abgeschlossen hat, die aktuelle Wiedergabe, Aufzeichnung oder Stop-Action. *(Funktion)*
 
-*   **Medienfehler**: (Optional) der Rückruf, der ausgeführt wird, wenn ein Fehler auftritt. *(Funktion)*
+  * **Medienfehler**: (Optional) der Rückruf, der ausgeführt wird, wenn ein Fehler auftritt. *(Funktion)*
 
-*   **MediaStatus**: (Optional) der Rückruf, der ausgeführt wird, um Statusänderungen anzugeben. *(Funktion)*
+  * **MediaStatus**: (Optional) der Rückruf, der ausgeführt wird, um Statusänderungen anzugeben. *(Funktion)*
 
 ### Konstanten
 
 Die folgenden Konstanten werden als einzigem Parameter an den `mediaStatus`-Rückruf gemeldet:
 
-*   `Media.MEDIA_NONE`= 0;
-*   `Media.MEDIA_STARTING`= 1;
-*   `Media.MEDIA_RUNNING`= 2;
-*   `Media.MEDIA_PAUSED`= 3;
-*   `Media.MEDIA_STOPPED`= 4;
+  * `Media.MEDIA_NONE`= 0;
+  * `Media.MEDIA_STARTING`= 1;
+  * `Media.MEDIA_RUNNING`= 2;
+  * `Media.MEDIA_PAUSED`= 3;
+  * `Media.MEDIA_STOPPED`= 4;
 
 ### Methoden
 
-*   `media.getCurrentPosition`: Gibt die aktuelle Position in einer Audiodatei.
+  * `media.getCurrentPosition`: Gibt die aktuelle Position in einer Audiodatei.
 
-*   `media.getDuration`: Gibt die Dauer einer Audiodatei.
+  * `media.getDuration`: Gibt die Dauer einer Audiodatei.
 
-*   `media.play`: Starten Sie oder fortsetzen Sie der Wiedergabe einer Audiodatei.
+  * `media.play`: Starten Sie oder fortsetzen Sie der Wiedergabe einer Audiodatei.
 
-*   `media.pause`: Anhalten der Wiedergabe einer Audiodatei.
+  * `media.pause`: Anhalten der Wiedergabe einer Audiodatei.
 
-*   `media.release`: Das zugrunde liegende Betriebssystem audio Ressourcen frei.
+  * `media.release`: Das zugrunde liegende Betriebssystem audio Ressourcen frei.
 
-*   `media.seekTo`: Verschiebt die Position innerhalb der audio-Datei.
+  * `media.seekTo`: Verschiebt die Position innerhalb der audio-Datei.
 
-*   `media.setVolume`: Stellen Sie die Lautstärke für die Audiowiedergabe.
+  * `media.setVolume`: Stellen Sie die Lautstärke für die Audiowiedergabe.
 
-*   `media.startRecord`: Starten der Aufnahme einer audio-Datei.
+  * `media.startRecord`: Starten der Aufnahme einer audio-Datei.
 
-*   `media.stopRecord`: Stoppen Sie die Aufnahme einer audio-Datei.
+  * `media.stopRecord`: Stoppen Sie die Aufnahme einer audio-Datei.
 
-*   `media.stop`: Abspielen einer Audiodatei zu stoppen.
+  * `media.stop`: Abspielen einer Audiodatei zu stoppen.
 
 ### Zusätzliche ReadOnly-Parameter
 
-*   **Position**: die Position innerhalb der audio-Wiedergabe in Sekunden.
+  * **Position**: die Position innerhalb der audio-Wiedergabe in Sekunden.
     
-    *   Nicht während des Spiels automatisch aktualisiert; Rufen Sie `getCurrentPosition` zu aktualisieren.
+      * Nicht während des Spiels automatisch aktualisiert; Rufen Sie `getCurrentPosition` zu aktualisieren.
 
-*   **Dauer**: die Dauer der Medien, in Sekunden.
+  * **Dauer**: die Dauer der Medien, in Sekunden.
 
 ## media.getCurrentPosition
 
@@ -119,9 +121,9 @@ Gibt die aktuelle Position in einer Audiodatei. Außerdem aktualisiert `das Medi
 
 ### Parameter
 
-*   **MediaSuccess**: der Rückruf, der die aktuelle Position in Sekunden übergeben wird.
+  * **MediaSuccess**: der Rückruf, der die aktuelle Position in Sekunden übergeben wird.
 
-*   **Medienfehler**: (Optional) der Rückruf ausgeführt, wenn ein Fehler auftritt.
+  * **Medienfehler**: (Optional) der Rückruf ausgeführt, wenn ein Fehler auftritt.
 
 ### Kurzes Beispiel
 
@@ -235,19 +237,19 @@ Startet oder setzt fort, Abspielen einer Audiodatei.
 
 ### iOS Macken
 
-*   **NumberOfLoops**: übergeben Sie diese Option, um die `play` -Methode können Sie die Anzahl der angeben soll die Mediendatei ausspielen, z.B.:
+  * **NumberOfLoops**: übergeben Sie diese Option, um die `play` -Methode können Sie die Anzahl der angeben soll die Mediendatei ausspielen, z.B.:
     
         var myMedia = new Media("http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3")
         myMedia.play({ numberOfLoops: 2 })
         
 
-*   **PlayAudioWhenScreenIsLocked**: übergeben Sie diese Option, um die `play` -Methode können Sie angeben, ob Sie möchten Wiedergabe zu ermöglichen, wenn der Bildschirm gesperrt ist. Wenn legen Sie auf `true` (der Standardwert), der Zustand der die mute Taste wird ignoriert, z.B.:
+  * **PlayAudioWhenScreenIsLocked**: übergeben Sie diese Option, um die `play` -Methode können Sie angeben, ob Sie möchten Wiedergabe zu ermöglichen, wenn der Bildschirm gesperrt ist. Wenn legen Sie auf `true` (der Standardwert), der Zustand der die mute Taste wird ignoriert, z.B.:
     
         var myMedia = new Media("http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3")
         myMedia.play({ playAudioWhenScreenIsLocked : false })
         
 
-*   **Reihenfolge der Dateisuche**: Wenn nur ein Dateiname oder Pfad angegeben wird, sucht iOS in das `www` Verzeichnis für die Datei, dann in der Anwendung `documents/tmp` Verzeichnis:
+  * **Reihenfolge der Dateisuche**: Wenn nur ein Dateiname oder Pfad angegeben wird, sucht iOS in das `www` Verzeichnis für die Datei, dann in der Anwendung `documents/tmp` Verzeichnis:
     
         var myMedia = new Media("audio/beer.mp3")
         myMedia.play()  // first looks for file in www/audio/beer.mp3 then in <application>/documents/tmp/audio/beer.mp3
@@ -280,7 +282,7 @@ Legt die aktuelle Position in einer Audiodatei.
 
 ### Parameter
 
-*   **miliseconds**: die Position die Wiedergabeposition innerhalb des Audiotracks in Millisekunden festgelegt.
+  * **miliseconds**: die Position die Wiedergabeposition innerhalb des Audiotracks in Millisekunden festgelegt.
 
 ### Kurzes Beispiel
 
@@ -296,7 +298,7 @@ Legt die aktuelle Position in einer Audiodatei.
 
 ### BlackBerry 10 Macken
 
-*   BlackBerry OS 5-Geräten unterstützt nicht.
+  * BlackBerry OS 5-Geräten unterstützt nicht.
 
 ## media.setVolume
 
@@ -307,12 +309,12 @@ Stellen Sie die Lautstärke für eine audio-Datei.
 
 ### Parameter
 
-*   **volume**: die Lautstärke für Wiedergabe fest. Der Wert muss im Bereich zwischen 0,0 und 1,0 liegen.
+  * **volume**: die Lautstärke für Wiedergabe fest. Der Wert muss im Bereich zwischen 0,0 und 1,0 liegen.
 
 ### Unterstützte Plattformen
 
-*   Android
-*   iOS
+  * Android
+  * iOS
 
 ### Kurzes Beispiel
 
@@ -354,10 +356,10 @@ Beginnt mit der Aufnahme einer audio-Datei.
 
 ### Unterstützte Plattformen
 
-*   Android
-*   iOS
-*   Windows Phone 7 und 8
-*   Windows
+  * Android
+  * iOS
+  * Windows Phone 7 und 8
+  * Windows
 
 ### Kurzes Beispiel
 
@@ -383,29 +385,31 @@ Beginnt mit der Aufnahme einer audio-Datei.
 
 ### Android Eigenarten
 
-*   Android-Geräte aufnehmen Audio im Adaptive Sprachcodecs Format. Die angegebene Datei sollte mit einer Endung *.amr* enden.
-*   Die Hardware-Lautstärkeregler sind bis zu den Mediendatenträger angeschlossen, während alle Medienobjekte lebendig sind. Das letzte erstelltes Medium Objekt `release()` aufgerufen hat, werden einmal die Lautstärkeregler auf ihr Standardverhalten zurückgesetzt. Die Steuerelemente werden auch auf Seitennavigation, zurückgesetzt, wenn dies alle Medienobjekte freigibt.
+  * Android-Geräte aufnehmen Audio im Adaptive Sprachcodecs Format. Die angegebene Datei sollte mit einer Endung *.amr* enden.
+  * Die Hardware-Lautstärkeregler sind bis zu den Mediendatenträger angeschlossen, während alle Medienobjekte lebendig sind. Das letzte erstelltes Medium Objekt `release()` aufgerufen hat, werden einmal die Lautstärkeregler auf ihr Standardverhalten zurückgesetzt. Die Steuerelemente werden auch auf Seitennavigation, zurückgesetzt, wenn dies alle Medienobjekte freigibt.
 
 ### iOS Macken
 
-*   iOS nur Datensätze, die Dateien des Typs *WAV* und gibt ein Fehler, wenn die Dateinamen-Erweiterung ist richtig nicht.
+  * iOS nur Datensätze, die Dateien des Typs *WAV* und gibt ein Fehler, wenn die Dateinamen-Erweiterung ist richtig nicht.
 
-*   Wenn ein vollständiger Pfad nicht angegeben ist, wird die Aufzeichnung in der Anwendung platziert `documents/tmp` Verzeichnis. Erreichbar über die `File` -API verwenden `LocalFileSystem.TEMPORARY` . Allen Unterverzeichnissen in Rekordzeit angegeben muss bereits vorhanden sein.
+  * Wenn ein vollständiger Pfad nicht angegeben ist, wird die Aufzeichnung in der Anwendung platziert `documents/tmp` Verzeichnis. Erreichbar über die `File` -API verwenden `LocalFileSystem.TEMPORARY` . Allen Unterverzeichnissen in Rekordzeit angegeben muss bereits vorhanden sein.
 
-*   Dateien können aufgezeichnet und spielte mit die Dokumenten URI zurück:
+  * Dateien können aufgezeichnet und spielte mit die Dokumenten URI zurück:
     
         var myMedia = new Media("documents://beer.mp3")
         
 
 ### Windows-Eigenheiten
 
-*   Wenn Sie ein vollständiger Pfad nicht angegeben ist, wird die Aufnahme im AppData/Temp-Verzeichnis platziert. Erreichbar über die `Datei` API verwenden `LocalFileSystem.TEMPORARY` oder "ms-Appdata: / / / Temp /<filename>' URI.
+  * Windows-Geräte können MP3, M4A und WMA-Formate für die aufgezeichneten Audio. Jedoch ist in den meisten Fällen es nicht möglich, MP3 für audio-Aufnahme auf *Windows Phone 8.1* -Geräten verwenden, da ein MP3-Encoder [nicht mit Windows Phone geliefert ist](https://msdn.microsoft.com/en-us/library/windows/apps/windows.media.mediaproperties.mediaencodingprofile.createmp3.aspx).
 
-*   Allen Unterverzeichnissen in Rekordzeit angegeben muss bereits vorhanden sein.
+  * Wenn Sie ein vollständiger Pfad nicht angegeben ist, wird die Aufnahme im AppData/Temp-Verzeichnis platziert. Erreichbar über die `Datei` API verwenden `LocalFileSystem.TEMPORARY` oder "ms-Appdata: / / / Temp /<filename>' URI.
+
+  * Allen Unterverzeichnissen in Rekordzeit angegeben muss bereits vorhanden sein.
 
 ### Tizen Macken
 
-*   Tizen Geräten unterstützt nicht.
+  * Tizen Geräten unterstützt nicht.
 
 ## media.stop
 
@@ -450,10 +454,10 @@ Stoppt die Aufnahme einer audio-Datei.
 
 ### Unterstützte Plattformen
 
-*   Android
-*   iOS
-*   Windows Phone 7 und 8
-*   Windows
+  * Android
+  * iOS
+  * Windows Phone 7 und 8
+  * Windows
 
 ### Kurzes Beispiel
 
@@ -485,7 +489,7 @@ Stoppt die Aufnahme einer audio-Datei.
 
 ### Tizen Macken
 
-*   Tizen Geräten unterstützt nicht.
+  * Tizen Geräten unterstützt nicht.
 
 ## Medienfehler
 
@@ -493,13 +497,13 @@ Ein `MediaError`-Objekt wird an die `mediaError`-Callback-Funktion zurückgegebe
 
 ### Eigenschaften
 
-*   **Code**: einer der vordefinierten Fehlercodes aufgeführt.
+  * **Code**: einer der vordefinierten Fehlercodes aufgeführt.
 
-*   **message**: eine Fehlermeldung beschreibt die Details des Fehlers.
+  * **message**: eine Fehlermeldung beschreibt die Details des Fehlers.
 
 ### Konstanten
 
-*   `MediaError.MEDIA_ERR_ABORTED`= 1
-*   `MediaError.MEDIA_ERR_NETWORK`= 2
-*   `MediaError.MEDIA_ERR_DECODE`= 3
-*   `MediaError.MEDIA_ERR_NONE_SUPPORTED`= 4
+  * `MediaError.MEDIA_ERR_ABORTED`= 1
+  * `MediaError.MEDIA_ERR_NETWORK`= 2
+  * `MediaError.MEDIA_ERR_DECODE`= 3
+  * `MediaError.MEDIA_ERR_NONE_SUPPORTED`= 4
