@@ -80,13 +80,13 @@ public class AudioHandler extends CordovaPlugin {
 
     protected void getWritePermission(int requestCode)
     {
-        cordova.requestPermission(this, requestCode, permissions[WRITE_EXTERNAL_STORAGE]);
+        PermissionHelper.requestPermission(this, requestCode, permissions[WRITE_EXTERNAL_STORAGE]);
     }
 
 
     protected void getMicPermission(int requestCode)
     {
-        cordova.requestPermission(this, requestCode, permissions[RECORD_AUDIO]);
+        PermissionHelper.requestPermission(this, requestCode, permissions[RECORD_AUDIO]);
     }
 
 
@@ -101,8 +101,6 @@ public class AudioHandler extends CordovaPlugin {
         CordovaResourceApi resourceApi = webView.getResourceApi();
         PluginResult.Status status = PluginResult.Status.OK;
 
-        // Android 6.0 isues.
-        // messageChannel = callbackContext;
         String result = "";
 
         if (action.equals("startRecordingAudio")) {
@@ -459,11 +457,11 @@ public class AudioHandler extends CordovaPlugin {
 
     private void promptForRecord()
     {
-        if(cordova.hasPermission(permissions[WRITE_EXTERNAL_STORAGE])  &&
-                cordova.hasPermission(permissions[RECORD_AUDIO])) {
+        if(PermissionHelper.hasPermission(this, permissions[WRITE_EXTERNAL_STORAGE])  &&
+                PermissionHelper.hasPermission(this, permissions[RECORD_AUDIO])) {
             this.startRecordingAudio(recordId, FileHelper.stripFileProtocol(fileUriStr));
         }
-        else if(cordova.hasPermission(permissions[RECORD_AUDIO]))
+        else if(PermissionHelper.hasPermission(this, permissions[RECORD_AUDIO]))
         {
             getWritePermission(WRITE_EXTERNAL_STORAGE);
         }
