@@ -89,6 +89,13 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
     private boolean prepareOnly = true;     // playback after file prepare flag
     private int seekOnPrepared = 0;     // seek to this location once media is prepared
     private Float pendingVolume = null;     // Allow volume to be set before player is created.
+
+    private MediaPlayer loopingPlayer = null;   // Player that allows us to loop
+    private MediaPlayer activePlayer = null;
+    private boolean loop = false;           // Whether or not the audio will loop.
+
+    private String assetFile;
+
     /**
      * Constructor.
      *
@@ -121,6 +128,12 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
             }
             this.player.release();
             this.player = null;
+        }
+        if (this.loopingPlayer != null) {
+            this.loopingPlayer.release();
+            this.loopingPlayer = null;
+
+            this.activePlayer = null;
         }
         if (this.recorder != null) {
             this.stopRecording();
@@ -217,9 +230,18 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
      *
      * @param file              The name of the audio file.
      */
-    public void startPlaying(String file) {
+    public void startPlaying(String file, boolean loop) {
+
+        this.loop = loop;
+
         if (this.readyPlayer(file) && this.player != null) {
-            this.player.start();
+
+            MediaPlayer playerToStart = this.player;
+
+            if (this.activePlayer != null)
+                playerToStart = this.activePlayer;
+
+            playerToStart.start();
             this.setState(STATE.MEDIA_RUNNING);
             this.seekOnPrepared = 0; //insures this is always reset
         } else {
@@ -232,7 +254,13 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
      */
     public void seekToPlaying(int milliseconds) {
         if (this.readyPlayer(this.audioFile)) {
-            this.player.seekTo(milliseconds);
+
+            MediaPlayer playerToSeek = this.player;
+
+            if (this.activePlayer != null)
+                playerToSeek = this.activePlayer;
+
+            playerToSeek.seekTo(milliseconds);
             Log.d(LOG_TAG, "Send a onStatus update for the new seek");
             sendStatusChange(MEDIA_POSITION, null, (milliseconds / 1000.0f));
         }
@@ -248,7 +276,13 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
 
         // If playing, then pause
         if (this.state == STATE.MEDIA_RUNNING && this.player != null) {
-            this.player.pause();
+
+            MediaPlayer playerToPause = this.player;
+
+            if (this.activePlayer != null)
+                playerToPause = this.activePlayer;
+
+            playerToPause.pause();
             this.setState(STATE.MEDIA_PAUSED);
         }
         else {
@@ -262,8 +296,14 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
      */
     public void stopPlaying() {
         if ((this.state == STATE.MEDIA_RUNNING) || (this.state == STATE.MEDIA_PAUSED)) {
-            this.player.pause();
-            this.player.seekTo(0);
+
+            MediaPlayer playerToStop = this.player;
+            if (this.activePlayer != null)
+                playerToStop = this.activePlayer;
+
+            playerToStop.pause();
+            playerToStop.seekTo(0);
+
             Log.d(LOG_TAG, "stopPlaying is calling stopped");
             this.setState(STATE.MEDIA_STOPPED);
         }
@@ -279,8 +319,33 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
      * @param player           The MediaPlayer that reached the end of the file
      */
     public void onCompletion(MediaPlayer player) {
-        Log.d(LOG_TAG, "on completion is calling stopped");
-        this.setState(STATE.MEDIA_STOPPED);
+
+        if (this.loopingPlayer != null) {
+            Log.d(LOG_TAG, "on completion [player] is LOOPING");
+
+            try {
+
+                player.reset();
+
+                final android.content.res.AssetFileDescriptor fd = this.handler.cordova.getActivity().getAssets().openFd(assetFile);
+                player.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
+
+                player.setOnPreparedListener(this);
+                player.setOnCompletionListener(this);
+
+                player.prepare();
+
+                activePlayer = loopingPlayer;
+
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "exception", e);
+            }
+
+        }
+        else {
+            Log.d(LOG_TAG, "on completion is calling stopped");
+            this.setState(STATE.MEDIA_STOPPED);
+        }
     }
 
     /**
@@ -290,7 +355,13 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
      */
     public long getCurrentPosition() {
         if ((this.state == STATE.MEDIA_RUNNING) || (this.state == STATE.MEDIA_PAUSED)) {
-            int curPos = this.player.getCurrentPosition();
+
+            MediaPlayer playerForPosition = this.player;
+
+            if (this.activePlayer != null)
+                playerForPosition = this.activePlayer;
+
+            int curPos = playerForPosition.getCurrentPosition();
             sendStatusChange(MEDIA_POSITION, null, (curPos / 1000.0f));
             return curPos;
         }
@@ -338,7 +409,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
         // If no player yet, then create one
         else {
             this.prepareOnly = true;
-            this.startPlaying(file);
+            this.startPlaying(file, this.loop);
 
             // This will only return value for local, since streaming
             // file hasn't been read yet.
@@ -353,25 +424,43 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
      */
     public void onPrepared(MediaPlayer player) {
         // Listen for playback completion
-        this.player.setOnCompletionListener(this);
-        // seek to any location received while not prepared
-        // Android 6.0 issues?
-        // this.seekToPlaying(this.seekOnPrepared);
-        // If start playing after prepared
-        if (!this.prepareOnly) {
-            this.player.start();
-            this.setState(STATE.MEDIA_RUNNING);
-            this.seekOnPrepared = 0; //reset only when played
-        } else {
-            this.setState(STATE.MEDIA_STARTING);
-        }
-        // Save off duration
-        this.duration = getDurationInSeconds();
-        // reset prepare only flag
-        this.prepareOnly = true;
 
-        // Send status notification to JavaScript
-        sendStatusChange(MEDIA_DURATION, null, this.duration);
+        Log.d(LOG_TAG, "on prepared [player]");
+
+        if (this.loopingPlayer == null) {
+
+            this.player.setOnCompletionListener(this);
+            // seek to any location received while not prepared
+            // Android 6.0 issues?
+            // this.seekToPlaying(this.seekOnPrepared);
+            // If start playing after prepared
+            if (!this.prepareOnly) {
+                this.player.start();
+                this.setState(STATE.MEDIA_RUNNING);
+                this.seekOnPrepared = 0; //reset only when played
+            } else {
+                this.setState(STATE.MEDIA_STARTING);
+            }
+            // Save off duration
+            this.duration = getDurationInSeconds();
+            // reset prepare only flag
+            this.prepareOnly = true;
+
+            // Send status notification to JavaScript
+            sendStatusChange(MEDIA_DURATION, null, this.duration);
+        }
+        else if (this.loop) {
+
+            this.loopingPlayer.setNextMediaPlayer(this.player);
+        }
+
+        if (loop && this.loopingPlayer == null) {
+
+            try {
+                createLoopingMediaPlayer();
+            }
+            catch (Exception e) {}
+        }
     }
 
     /**
@@ -380,7 +469,13 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
      * @return length of clip in seconds
      */
     private float getDurationInSeconds() {
-        return (this.player.getDuration() / 1000.0f);
+
+        MediaPlayer playerForDuration = this.player;
+
+        if (this.activePlayer != null)
+            playerForDuration = this.activePlayer;
+
+        return (playerForDuration.getDuration() / 1000.0f);
     }
 
     /**
@@ -397,6 +492,12 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
         // TODO: Not sure if this needs to be sent?
         this.player.stop();
         this.player.release();
+
+        if (this.loopingPlayer != null) {
+
+            this.loopingPlayer.stop();
+            this.loopingPlayer.reset();
+        }
 
         // Send error notification to JavaScript
         sendErrorStatus(arg1);
@@ -443,8 +544,12 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
      * @param volume
      */
     public void setVolume(float volume) {
-        if (this.player != null)
+        if (this.player != null) {
             this.player.setVolume(volume, volume);
+
+            if (this.loopingPlayer != null)
+                this.loopingPlayer.setVolume(volume, volume);
+        }
         else
             pendingVolume = volume;
     }
@@ -500,36 +605,41 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                 case MEDIA_PAUSED:
                     return true;
                 case MEDIA_STOPPED:
-                    //if we are readying the same file
-                    if (this.audioFile.compareTo(file) == 0) {
-                        //maybe it was recording?
-                        if(this.recorder!=null && player==null) {
-                            this.player = new MediaPlayer();
-                            this.prepareOnly = false;
 
+                    if (file == null)
+                        Log.e(LOG_TAG, "AudioPlayer STOPPED, file is null.");
+
+                    if (file != null) {
+                        //if we are readying the same file
+                        if (this.audioFile.compareTo(file) == 0) {
+                            //maybe it was recording?
+                            if (this.recorder != null && player == null) {
+                                this.player = new MediaPlayer();
+                                this.prepareOnly = false;
+
+                                try {
+                                    this.loadAudioFile(file);
+                                } catch (Exception e) {
+                                    sendErrorStatus(MEDIA_ERR_ABORTED);
+                                }
+                                return false;//we´re not ready yet
+                            } else {
+                                //reset the audio file
+                                player.seekTo(0);
+                                player.pause();
+                                return true;
+                            }
+                        } else {
+                            //reset the player
+                            this.player.reset();
                             try {
                                 this.loadAudioFile(file);
                             } catch (Exception e) {
                                 sendErrorStatus(MEDIA_ERR_ABORTED);
                             }
-                            return false;//we´re not ready yet
+                            //if we had to prepare the file, we won't be in the correct state for playback
+                            return false;
                         }
-                        else {
-                           //reset the audio file
-                            player.seekTo(0);
-                            player.pause();
-                            return true;
-                        }
-                    } else {
-                        //reset the player
-                        this.player.reset();
-                        try {
-                            this.loadAudioFile(file);
-                        } catch (Exception e) {
-                            sendErrorStatus(MEDIA_ERR_ABORTED);
-                        }
-                        //if we had to prepare the file, we won't be in the correct state for playback
-                        return false;
                     }
                 default:
                     Log.d(LOG_TAG, "AudioPlayer Error: startPlaying() called during invalid state: " + this.state);
@@ -537,6 +647,51 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
             }
         }
         return false;
+    }
+
+    private void createLoopingMediaPlayer() throws IOException {
+
+        if (loopingPlayer == null) {
+            loopingPlayer = new MediaPlayer();
+
+            this.loopingPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+
+                    Log.d(LOG_TAG, "on prepared [loopingPlayer]");
+
+                    // This sets up the first iteration of the loop
+                    player.setNextMediaPlayer(loopingPlayer);
+                }
+            });
+
+            this.loopingPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+
+                    Log.d(LOG_TAG, "on completion [loopingPlayer] is LOOPING");
+
+                    try {
+                        createLoopingMediaPlayer();
+
+                        activePlayer = player;
+                    } catch (Exception e) {
+                        Log.e(LOG_TAG, "exception", e);
+                    }
+
+                }
+            });
+
+        }
+        else
+            loopingPlayer.reset();
+
+        final android.content.res.AssetFileDescriptor fd = this.handler.cordova.getActivity().getAssets().openFd(assetFile);
+        loopingPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
+
+        this.loopingPlayer.prepare();
     }
 
     /**
@@ -558,8 +713,8 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
         }
         else {
             if (file.startsWith("/android_asset/")) {
-                String f = file.substring(15);
-                android.content.res.AssetFileDescriptor fd = this.handler.cordova.getActivity().getAssets().openFd(f);
+                this.assetFile = file.substring(15);
+                final android.content.res.AssetFileDescriptor fd = this.handler.cordova.getActivity().getAssets().openFd(assetFile);
                 this.player.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
             }
             else {
