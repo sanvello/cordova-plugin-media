@@ -135,7 +135,7 @@ public class AudioHandler extends CordovaPlugin {
             }
 
             String params = args.length() > 1 ? args.getString(2) : null;
-            if (params != null) {
+            if (params != null && params != "null") {
 
                 JSONObject obj = new JSONObject(params);
 

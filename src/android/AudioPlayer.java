@@ -26,6 +26,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
@@ -456,10 +457,16 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
 
         if (loop && this.loopingPlayer == null) {
 
-            try {
-                createLoopingMediaPlayer();
+            if (Build.VERSION.SDK_INT >= 16) {
+                try {
+                    createLoopingMediaPlayer();
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "Error creating looping player.", e);
+                }
             }
-            catch (Exception e) {}
+            else {
+                this.player.setLooping(true);
+            }
         }
     }
 
@@ -662,6 +669,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                     Log.d(LOG_TAG, "on prepared [loopingPlayer]");
 
                     // This sets up the first iteration of the loop
+
                     player.setNextMediaPlayer(loopingPlayer);
                 }
             });
