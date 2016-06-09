@@ -455,7 +455,8 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
             this.loopingPlayer.setNextMediaPlayer(this.player);
         }
 
-        if (loop && this.loopingPlayer == null) {
+        // Make sure we aren't disposing or something.
+        if (loop && this.loopingPlayer == null && this.player != null && (this.state != STATE.MEDIA_STOPPED)) {
 
             if (Build.VERSION.SDK_INT >= 16) {
                 try {
