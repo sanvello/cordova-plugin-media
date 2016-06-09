@@ -73,8 +73,6 @@ public class AudioHandler extends CordovaPlugin {
     private String recordId;
     private String fileUriStr;
 
-    private boolean loop;
-
     /**
      * Constructor.
      */
@@ -134,6 +132,8 @@ public class AudioHandler extends CordovaPlugin {
                 fileUriStr = target;
             }
 
+            boolean loop = false;
+
             String params = args.length() > 1 ? args.getString(2) : null;
             if (params != null && params != "null") {
 
@@ -143,10 +143,10 @@ public class AudioHandler extends CordovaPlugin {
                 if (loopStr != null) {
 
                     Integer loops = Integer.parseInt(loopStr);
-                    this.loop = loops > 0;
+                    loop = loops > 0;
                 }
             }
-            this.startPlayingAudio(args.getString(0), FileHelper.stripFileProtocol(fileUriStr), this.loop);
+            this.startPlayingAudio(args.getString(0), FileHelper.stripFileProtocol(fileUriStr), loop);
         }
         else if (action.equals("seekToAudio")) {
             this.seekToAudio(args.getString(0), args.getInt(1));
@@ -248,7 +248,7 @@ public class AudioHandler extends CordovaPlugin {
             // If phone idle, then resume playing those players we paused
             else if ("idle".equals(data)) {
                 for (AudioPlayer audio : this.pausedForPhone) {
-                    audio.startPlaying(null, this.loop);
+                    audio.startPlaying(null, false); // The loop flag shouldn't matter here since the audio has already been playing.
                 }
                 this.pausedForPhone.clear();
             }
@@ -412,7 +412,7 @@ public class AudioHandler extends CordovaPlugin {
 
     public void resumeAllGainedFocus() {
         for (AudioPlayer audio : this.pausedForFocus) {
-            audio.startPlaying(null, this.loop);
+            audio.startPlaying(null, false); // The loop flag shouldn't matter here since the audio has already been playing.
         }
         this.pausedForFocus.clear();
     }
