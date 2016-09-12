@@ -28,6 +28,7 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Environment;
+import android.util.Log;
 
 import org.apache.cordova.LOG;
 
@@ -704,10 +705,12 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                     //if we are readying the same file
                     if (this.audioFile.compareTo(file) == 0) {
                         //maybe it was recording?
-                        if(this.recorder!=null && player==null) {
+                        if (this.recorder != null && player == null) {
                             this.player = new MediaPlayer();
                             this.player.setOnErrorListener(this);
                             this.prepareOnly = false;
+                        }
+                    }
 
                     if (file == null)
                         Log.e(LOG_TAG, "AudioPlayer STOPPED, file is null.");
@@ -747,6 +750,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                 default:
                     LOG.d(LOG_TAG, "AudioPlayer Error: startPlaying() called during invalid state: " + this.state);
                     sendErrorStatus(MEDIA_ERR_ABORTED);
+
             }
         }
         return false;
