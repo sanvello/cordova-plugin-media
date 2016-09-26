@@ -120,9 +120,9 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
     private String generateTempFile() {
       String tempFileName = null;
       if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-          tempFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmprecording-" + System.currentTimeMillis() + ".3gp";
+          tempFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmprecording-" + System.currentTimeMillis() + ".m4a";
       } else {
-          tempFileName = "/data/data/" + handler.cordova.getActivity().getPackageName() + "/cache/tmprecording-" + System.currentTimeMillis() + ".3gp";
+          tempFileName = "/data/data/" + handler.cordova.getActivity().getPackageName() + "/cache/tmprecording-" + System.currentTimeMillis() + ".m4a";
       }
       return tempFileName;
     }
@@ -168,8 +168,13 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
             this.audioFile = file;
             this.recorder = new MediaRecorder();
             this.recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            this.recorder.setOutputFormat(MediaRecorder.OutputFormat.RAW_AMR); // THREE_GPP);
-            this.recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB); //AMR_NB);
+
+            this.recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            this.recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+
+            this.recorder.setAudioChannels(1); // single channel
+            this.recorder.setAudioSamplingRate(44100); // 44.1 kHz for decent sound, similar to stock iOS media plugin
+            this.recorder.setAudioEncodingBitRate(32000); // low bit rate
             this.tempFile = generateTempFile();
 
             this.recorder.setOutputFile(this.tempFile);
