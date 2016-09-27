@@ -30,44 +30,6 @@
 
 @synthesize soundCache, avSession, currMediaId;
 
-/* 
- * These two methods are added to allow us to pause and resume recording.
- */
-- (void)resumeRecordingAudio:(CDVInvokedUrlCommand*)command
- {
-    NSString* mediaId = [command.arguments objectAtIndex:0];
-
-    CDVAudioFile* audioFile = [[self soundCache] objectForKey:mediaId];
-    NSString* jsString = nil;
-
-    if ((audioFile != nil) && (audioFile.recorder != nil)) {
-        NSLog(@"Resumed recording audio sample '%@'", audioFile.resourcePath);
-        [audioFile.recorder record];
-        // no callback - that will happen in audioRecorderDidFinishRecording
-    }
-    // ignore if no media recording
-    if (jsString) {
-        [self.commandDelegate evalJs:jsString];
-    }
-}
-
-- (void)pauseRecordingAudio:(CDVInvokedUrlCommand*)command
- {
-    NSString* mediaId = [command.arguments objectAtIndex:0];
-
-    CDVAudioFile* audioFile = [[self soundCache] objectForKey:mediaId];
-    NSString* jsString = nil;
-
-    if ((audioFile != nil) && (audioFile.recorder != nil)) {
-        NSLog(@"Paused recording audio sample '%@'", audioFile.resourcePath);
-        [audioFile.recorder pause];
-        // no callback - that will happen in audioRecorderDidFinishRecording
-    }
-    // ignore if no media recording
-    if (jsString) {
-        [self.commandDelegate evalJs:jsString];
-    }
-}
 // Maps a url for a resource path for recording
 - (NSURL*)urlForRecording:(NSString*)resourcePath
 {
