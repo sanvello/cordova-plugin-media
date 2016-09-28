@@ -288,10 +288,11 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                     this.state = STATE.MEDIA_STOPPED;
                 }
 
-                if (stop) {
-                    this.recorder.reset();
-                    this.tempFiles.add(this.tempFile);
+                this.recorder.reset();
+                this.tempFiles.add(this.tempFile);
 
+                if (stop) {
+                    
                     LOG.d(LOG_TAG, "stopping recording");
                     this.setState(STATE.MEDIA_STOPPED);
                     this.moveFile(this.audioFile);
