@@ -808,7 +808,7 @@
         jsString = [NSString stringWithFormat:@"%@(\"%@\",%d,%@);", @"cordova.require('cordova-plugin-media.Media').onStatus", mediaId, MEDIA_ERROR, [self createMediaErrorWithCode:MEDIA_ERR_DECODE message:nil]];
     }
     if (self.avSession) {
-        // This seems to prevent multiple audio files on iOS8.
+        // This seems to prevent multiple audio files on iOS.
         // [self.avSession setActive:NO error:nil];
     }
     [self.commandDelegate evalJs:jsString];
@@ -820,9 +820,10 @@
     NSString* jsString = nil;
     jsString = [NSString stringWithFormat:@"%@(\"%@\",%d,%d);", @"cordova.require('cordova-plugin-media.Media').onStatus", mediaId, MEDIA_STATE, MEDIA_STOPPED];
 
-    if (self.avSession) {
-        [self.avSession setActive:NO error:nil];
-    }
+    // This seems to prevent multiple audio files on iOS.
+    // if (self.avSession) {
+    //     [self.avSession setActive:NO error:nil];
+    // }
     [self.commandDelegate evalJs:jsString];
 }
 
