@@ -435,7 +435,7 @@ public class AudioHandler extends CordovaPlugin {
 
     public void resumeAllGainedFocus() {
         for (AudioPlayer audio : this.pausedForFocus) {
-            audio.startPlaying(null, false); // The loop flag shouldn't matter here since the audio has already been playing.
+            audio.resumePlaying();
         }
         this.pausedForFocus.clear();
     }
