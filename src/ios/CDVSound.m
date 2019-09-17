@@ -443,7 +443,6 @@ BOOL keepAvAudioSessionAlwaysActive = NO;
                 [audioFile.player play];
             } */
             // error creating the session or player
-            // jsString = [NSString stringWithFormat: @"%@(\"%@\",%d,%d);", @"cordova.require('cordova-plugin-media.Media').onStatus", mediaId, MEDIA_ERROR,  MEDIA_ERR_NONE_SUPPORTED];
             [self onStatus:MEDIA_ERROR mediaId:mediaId
             param:[self createMediaErrorWithCode:MEDIA_ERR_NONE_SUPPORTED message:nil]];
         }
@@ -809,23 +808,21 @@ BOOL keepAvAudioSessionAlwaysActive = NO;
     CDVAudioPlayer* aPlayer = (CDVAudioPlayer*)player;
     NSString* mediaId = aPlayer.mediaId;
     CDVAudioFile* audioFile = [[self soundCache] objectForKey:mediaId];
-    NSString* jsString = nil;
 
     if (audioFile != nil) {
         NSLog(@"Finished playing audio sample '%@'", audioFile.resourcePath);
     }
     if (flag) {
         audioFile.player.currentTime = 0;
-        jsString = [NSString stringWithFormat:@"%@(\"%@\",%d,%d);", @"cordova.require('cordova-plugin-media.Media').onStatus", mediaId, MEDIA_STATE, MEDIA_STOPPED];
+        [self onStatus:MEDIA_STATE mediaId:mediaId param:@(MEDIA_STOPPED)];
     } else {
-        // jsString = [NSString stringWithFormat: @"%@(\"%@\",%d,%d);", @"cordova.require('cordova-plugin-media.Media').onStatus", mediaId, MEDIA_ERROR, MEDIA_ERR_DECODE];
-        jsString = [NSString stringWithFormat:@"%@(\"%@\",%d,%@);", @"cordova.require('cordova-plugin-media.Media').onStatus", mediaId, MEDIA_ERROR, [self createMediaErrorWithCode:MEDIA_ERR_DECODE message:nil]];
+        [self onStatus:MEDIA_ERROR mediaId:mediaId param:
+        [self createMediaErrorWithCode:MEDIA_ERR_DECODE message:nil]];
     }
-    if (self.avSession) {
-        // This seems to prevent multiple audio files on iOS.
-        // [self.avSession setActive:NO error:nil];
+
+    if (! keepAvAudioSessionAlwaysActive && self.avSession && ! [self isPlayingOrRecording]) {
+        [self.avSession setActive:NO error:nil];
     }
-    [self.commandDelegate evalJs:jsString];
 }
 
 -(void)itemDidFinishPlaying:(NSNotification *) notification {
