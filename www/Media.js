@@ -64,23 +64,6 @@ Media.MEDIA_PAUSED = 3;
 Media.MEDIA_STOPPED = 4;
 Media.MEDIA_MSG = ["None", "Starting", "Running", "Paused", "Stopped"];
 
-/* These two methods have been added. */
-
-/**
- * Pause recording audio file.
- */
-Media.prototype.pauseRecord = function() {
-    exec(null, this.errorCallback, "Media", "pauseRecordingAudio", [this.id]);
-};
-
-/**
-* Resume recording audio file.
-*/
-Media.prototype.resumeRecord = function() {
-    exec(null, this.errorCallback, "Media", "resumeRecordingAudio", [this.id]);
-};
-
-
 // "static" function to return existing objs.
 Media.get = function(id) {
     return mediaObjects[id];
