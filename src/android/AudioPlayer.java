@@ -120,7 +120,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
     private String generateTempFile() {
       // Returns the path to the scoped storage (app specific directory).
       // This is needed to support the storage changes introduced with API level 29/30.
-      return "/data/data/" + handler.cordova.getActivity().getPackageName() + "/cache/tmprecording-" + System.currentTimeMillis() + ".m4a";;
+      return "/data/data/" + handler.cordova.getActivity().getPackageName() + "/cache/tmprecording-" + System.currentTimeMillis() + ".m4a";
     }
 
     /**
