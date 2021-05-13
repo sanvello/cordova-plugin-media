@@ -118,13 +118,9 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
     }
 
     private String generateTempFile() {
-      String tempFileName = null;
-      if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-          tempFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmprecording-" + System.currentTimeMillis() + ".m4a";
-      } else {
-          tempFileName = "/data/data/" + handler.cordova.getActivity().getPackageName() + "/cache/tmprecording-" + System.currentTimeMillis() + ".m4a";
-      }
-      return tempFileName;
+      // Returns the path to the scoped storage (app specific directory).
+      // This is needed to support the storage changes introduced with API level 29/30.
+      return handler.cordova.getActivity().getCacheDir().getPath() + "/tmprecording-" + System.currentTimeMillis() + ".m4a";
     }
 
     /**
