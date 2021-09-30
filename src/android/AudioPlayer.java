@@ -120,7 +120,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
     private String generateTempFile() {
       // Returns the path to the scoped storage (app specific directory).
       // This is needed to support the storage changes introduced with API level 29/30.
-      return handler.cordova.getActivity().getCacheDir().getPath() + "/tmprecording-" + System.currentTimeMillis() + ".m4a";
+      return handler.cordova.getActivity().getCacheDir().getPath() + "/tmprecording-" + System.currentTimeMillis() + ".3gp";
     }
 
     /**
@@ -165,12 +165,9 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
             this.recorder = new MediaRecorder();
             this.recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 
-            this.recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            this.recorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
             this.recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
 
-            this.recorder.setAudioChannels(1); // single channel
-            this.recorder.setAudioSamplingRate(44100); // 44.1 kHz for decent sound, similar to stock iOS media plugin
-            this.recorder.setAudioEncodingBitRate(32000); // low bit rate
             this.tempFile = generateTempFile();
 
             this.recorder.setOutputFile(this.tempFile);
