@@ -20,6 +20,141 @@
 -->
 # Release Notes
 
+### 7.0.0 (Sep 07, 2023)
+
+**Breaking Changes:**
+
+* [GH-384](https://github.com/apache/cordova-plugin-media/pull/384) fix!: remove deprecated `windows` platform
+* [GH-378](https://github.com/apache/cordova-plugin-media/pull/378) feat(android)!: bump file & **Android** requirements
+
+**Features:**
+
+* [GH-362](https://github.com/apache/cordova-plugin-media/pull/362) feat(ios): load media files with custom scheme+hostname and leading directory paths
+* [GH-383](https://github.com/apache/cordova-plugin-media/pull/383) feat(android): increase audio encoding bitrate and sampling rate
+* [GH-382](https://github.com/apache/cordova-plugin-media/pull/382) feat(android): support Android 13 permission checks and requests
+
+**Others:**
+
+* [GH-381](https://github.com/apache/cordova-plugin-media/pull/381) dep(dev)!: bump `@cordova/eslint-config@5.0.0`
+* [GH-377](https://github.com/apache/cordova-plugin-media/pull/377) ci: sync github action workflow w/ paramedic base configs
+
+### 6.1.0 (Sep 06, 2022)
+
+* [GH-357](https://github.com/apache/cordova-plugin-media/pull/357) feat(android): add '`message`' field to media error [CB-11641](https://issues.apache.org/jira/browse/CB-11641)
+* [GH-352](https://github.com/apache/cordova-plugin-media/pull/352) feat(ios): support `file` scheme
+* [GH-354](https://github.com/apache/cordova-plugin-media/pull/354) fix(ios): Reset default audio session category when release ([CB-13243](https://issues.apache.org/jira/browse/CB-13243))
+* [GH-353](https://github.com/apache/cordova-plugin-media/pull/353) fix(ios): error on `getPosition` when time is `nan`
+* [GH-355](https://github.com/apache/cordova-plugin-media/pull/355) test(spec.22): pause media before calling `getCurrentPosition`
+* [GH-356](https://github.com/apache/cordova-plugin-media/pull/356) test(spec.timeout): try to improve against timeout failures
+* [GH-351](https://github.com/apache/cordova-plugin-media/pull/351) ci: sync workflow with paramedic
+* [GH-349](https://github.com/apache/cordova-plugin-media/pull/349) ci(android): update java requirement for `cordova-android@11`
+
+### 6.0.0 (May 25, 2022)
+
+* [GH-344](https://github.com/apache/cordova-plugin-media/pull/344) feat(android): drop `WRITE_EXTERNAL_STORAGE` permission
+* [GH-195](https://github.com/apache/cordova-plugin-media/pull/195) feat(ios): Add error call for `stalled_playback`
+* [GH-341](https://github.com/apache/cordova-plugin-media/pull/341) feat(android): add `setRate`
+* [GH-340](https://github.com/apache/cordova-plugin-media/pull/340) fix(ios): set rate with current playback rate
+* [GH-197](https://github.com/apache/cordova-plugin-media/pull/197) feat: add `durationUpdate` callback
+* [GH-232](https://github.com/apache/cordova-plugin-media/pull/232) fix(android): remove `READ_PHONE_STATE` permission
+* [GH-285](https://github.com/apache/cordova-plugin-media/pull/285) fix: remove deprecated platform code snippets
+* [GH-338](https://github.com/apache/cordova-plugin-media/pull/338) fix: missing parenthesis from #328
+* [GH-328](https://github.com/apache/cordova-plugin-media/pull/328) fix(android): issue #325
+* [GH-334](https://github.com/apache/cordova-plugin-media/pull/334) dep!: bump `cordova-plugin-file@^7.0.0`
+* [GH-337](https://github.com/apache/cordova-plugin-media/pull/337) chore: bump `cordovaDependencies` next next major cordova requirement
+* [GH-336](https://github.com/apache/cordova-plugin-media/pull/336) chore: rebuilt `package-lock`
+
+### 5.0.4 (Jan 21, 2022)
+
+* [GH-329](https://github.com/apache/cordova-plugin-media/pull/329) dep: bump `@cordova/eslint-config@4.0.0` w/ fix & `package-lock` rebuild
+* [GH-317](https://github.com/apache/cordova-plugin-media/pull/317) fix(android): get external files directory for **Android** 10+
+* [GH-320](https://github.com/apache/cordova-plugin-media/pull/320) ci(ios): update workflow w/ **iOS** 15
+* [GH-318](https://github.com/apache/cordova-plugin-media/pull/318) test(browser): disable test cases w/ play() due to Chrome's Autoplay Policy
+* [GH-313](https://github.com/apache/cordova-plugin-media/pull/313) ci: add action-badge
+* [GH-312](https://github.com/apache/cordova-plugin-media/pull/312) ci: remove travis & appveyor
+* [GH-311](https://github.com/apache/cordova-plugin-media/pull/311) ci: add gh-actions workflows
+* [GH-298](https://github.com/apache/cordova-plugin-media/pull/298) ci: add node-14.x to workflow
+* [GH-292](https://github.com/apache/cordova-plugin-media/pull/292) ci(travis): update osx xcode image
+* [GH-291](https://github.com/apache/cordova-plugin-media/pull/291) ci(travis): updates **Android** API level
+* [GH-284](https://github.com/apache/cordova-plugin-media/pull/284) chore: adds `package-lock` file
+* [GH-283](https://github.com/apache/cordova-plugin-media/pull/283) refactor(eslint): use `cordova-eslint` /w fix
+* [GH-282](https://github.com/apache/cordova-plugin-media/pull/282) chore(npm): use short notation in `package.json`
+* chore(asf): update git notification settings
+* Update CONTRIBUTING.md
+* [GH-249](https://github.com/apache/cordova-plugin-media/pull/249) Fix #248 delete javascript reference to released media
+* [GH-274](https://github.com/apache/cordova-plugin-media/pull/274) ci: updates Node.js versions
+* [GH-275](https://github.com/apache/cordova-plugin-media/pull/275) chore(npm): improve ignore list
+* ci(travis): upgrade to node8
+* [GH-241](https://github.com/apache/cordova-plugin-media/pull/241) fix(types): Add type definition for getCurrentAmplitude
+
+### 5.0.3 (Jun 27, 2019)
+
+-   chore: fix repo and issue urls and license in package.json and plugin.xml ([`784ac7b`](https://github.com/apache/cordova-plugin-media/commit/784ac7b))
+-   build: add `.gitattributes` to force LF (instead of possible CRLF on Windows) ([`5244c4a`](https://github.com/apache/cordova-plugin-media/commit/5244c4a))
+-   build: add `.npmignore` to remove unneeded files from npm package ([`aa1586d`](https://github.com/apache/cordova-plugin-media/commit/aa1586d))
+-   ci(travis): Update Travis CI configuration for new paramedic ([#227](https://github.com/apache/cordova-plugin-media/issues/227)) ([`b0ed6bd`](https://github.com/apache/cordova-plugin-media/commit/b0ed6bd))
+-   chore(github): Add or update GitHub pull request and issue template ([`b1c1353`](https://github.com/apache/cordova-plugin-media/commit/b1c1353))
+-   docs: remove JIRA link ([`2acd3c2`](https://github.com/apache/cordova-plugin-media/commit/2acd3c2))
+-   ci(travis): also accept terms for android sdk `android-27` ([`74772c3`](https://github.com/apache/cordova-plugin-media/commit/74772c3))
+-   docs: remove outdated docs that haven't been updated for 3 years ([`a006da3`](https://github.com/apache/cordova-plugin-media/commit/a006da3))
+-   fix(types): add types for callback in constructor ([#90](https://github.com/apache/cordova-plugin-media/issues/90)) ([`7094582`](https://github.com/apache/cordova-plugin-media/commit/7094582))
+-   docs: (iOS) document setRate method ([#142](https://github.com/apache/cordova-plugin-media/issues/142)) ([`5f18902`](https://github.com/apache/cordova-plugin-media/commit/5f18902))
+-   fix(ios): [CB-13445](https://issues.apache.org/jira/browse/CB-13445) (iOS) Streaming media can take up to 8-10 seconds to start ([#169](https://github.com/apache/cordova-plugin-media/issues/169)) ([`43d57ca`](https://github.com/apache/cordova-plugin-media/commit/43d57ca))
+-   fix(android): [CB-12849](https://issues.apache.org/jira/browse/CB-12849) checking mediaState in destroy method, and moving file by stream when renameTo failing ([#168](https://github.com/apache/cordova-plugin-media/issues/168)) ([`86660dd`](https://github.com/apache/cordova-plugin-media/commit/86660dd))
+-   tests: [CB-14091](https://issues.apache.org/jira/browse/CB-14091) fix tests code for stream url and remove browser ([#166](https://github.com/apache/cordova-plugin-media/issues/166)) ([`524c337`](https://github.com/apache/cordova-plugin-media/commit/524c337))
+
+
+### 5.0.2 (Jan 24, 2018)
+* [CB-13751](https://issues.apache.org/jira/browse/CB-13751) Add build-tools-26.0.2 to travis (#163)
+* Fix for [CB-11513](https://issues.apache.org/jira/browse/CB-11513)
+* [CB-7684](https://issues.apache.org/jira/browse/CB-7684) (#143)
+
+### 5.0.1 (Dec 27, 2017)
+* [CB-13706](https://issues.apache.org/jira/browse/CB-13706) Fix to allow 5.0.0 version install (#160)
+* Bump cordova-plugin-file dependency to 6.0.0
+
+### 5.0.0 (Dec 15, 2017)
+* [CB-13678](https://issues.apache.org/jira/browse/CB-13678) Remove deprecated platforms
+
+### 4.0.0 (Nov 06, 2017)
+* [CB-12264](https://issues.apache.org/jira/browse/CB-12264) (README): fix `media.getCurrentAmplitude` definition
+* [CB-13265](https://issues.apache.org/jira/browse/CB-13265) Remove **iOS** usage description from media plugin
+* [CB-13517](https://issues.apache.org/jira/browse/CB-13517)  (all): Add 'protective' entry to `cordovaDependencies`
+* [CB-13473](https://issues.apache.org/jira/browse/CB-13473) (CI) Removed **Browser** builds from AppVeyor
+* [CB-13294](https://issues.apache.org/jira/browse/CB-13294) Remove `cordova-plugin-compat`
+* [CB-13299](https://issues.apache.org/jira/browse/CB-13299) (CI) Fix **Android** builds
+* [CB-13028](https://issues.apache.org/jira/browse/CB-13028) (CI) **Browser** builds on Travis and AppVeyor
+* [CB-12671](https://issues.apache.org/jira/browse/CB-12671) **iOS**: Fix auto-test with stopping media that is in starting state
+* [CB-12847](https://issues.apache.org/jira/browse/CB-12847) added `bugs` entry to `package.json`.
+
+### 3.0.1 (Apr 27, 2017)
+* [CB-12542](https://issues.apache.org/jira/browse/CB-12542) (ios) Fix wav file recording, add m4a extension. make **iOS** status handling compatible with **Android**/Windows
+* [CB-12622](https://issues.apache.org/jira/browse/CB-12622) Added **Android 6.0** build badges to `README`
+* [CB-12685](https://issues.apache.org/jira/browse/CB-12685) added `package.json` to tests folder
+
+### 3.0.0 (Feb 28, 2017)
+* **Android:** fix `NullPointerException` in `AudioPlayer.readyPlayer`
+* **Android:** fix `java.lang.NullPointerException` on `resumeAllGainedFocus`
+* [CB-12493](https://issues.apache.org/jira/browse/CB-12493) (Tests) Fixed spec.21 flakyness
+* major version bump, added `cordovaDependencies` requirement for `cordova-android>=6.1.0`
+* Add engine tag for checking `cordova-android`
+* Make the output file of **Android** an `acc` file.
+* [CB-12422](https://issues.apache.org/jira/browse/CB-12422) **iOS:** Fix readme issue on background needed plist modification
+* [CB-12434](https://issues.apache.org/jira/browse/CB-12434) **Android:** fix Stoping a Paused Recording throws exception
+* [CB-12411](https://issues.apache.org/jira/browse/CB-12411) Stoping a Paused Recording throws illegal state exception
+* [CB-1187](https://issues.apache.org/jira/browse/CB-1187) **iOS:** Fix unused recording settings
+* [CB-12353](https://issues.apache.org/jira/browse/CB-12353) Corrected merges usage in `plugin.xml`
+* [CB-12369](https://issues.apache.org/jira/browse/CB-12369) Add plugin typings from DefinitelyTyped
+* [CB-12363](https://issues.apache.org/jira/browse/CB-12363) Added build badges for **iOS 9.3** and **iOS 10.0** 
+* [CB-12230](https://issues.apache.org/jira/browse/CB-12230) Removed **Windows 8.1** build badges
+
+### 2.4.1 (Dec 07, 2016)
+* [CB-12224](https://issues.apache.org/jira/browse/CB-12224) Updated version and RELEASENOTES.md for release 2.4.1
+* [CB-12034](https://issues.apache.org/jira/browse/CB-12034) (ios) Add mandatory iOS 10 privacy description
+* [CB-11917](https://issues.apache.org/jira/browse/CB-11917) - Remove pull request template checklist item: "iCLA has been submitted…"
+* [CB-11529](https://issues.apache.org/jira/browse/CB-11529) ios: Make available setting volume for player on ios device
+* [CB-11832](https://issues.apache.org/jira/browse/CB-11832) Incremented plugin version.
+
 ### 2.4.0 (Sep 08, 2016)
 * [CB-11795](https://issues.apache.org/jira/browse/CB-11795) Add 'protective' entry to cordovaDependencies
 * [CB-11793](https://issues.apache.org/jira/browse/CB-11793) fixed **android** build issue with last commit
