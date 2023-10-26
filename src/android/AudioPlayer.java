@@ -797,7 +797,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                                 try {
                                     this.loadAudioFile(file);
                                 } catch (Exception e) {
-                                    sendErrorStatus(MEDIA_ERR_ABORTED);
+                                    sendErrorStatus(MEDIA_ERR_ABORTED, e.getMessage());
                                 }
                                 return false;//we´re not ready yet
                             } else {
