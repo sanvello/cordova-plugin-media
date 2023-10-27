@@ -714,6 +714,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
             if (this.loopingPlayer != null)
                 this.loopingPlayer.setVolume(volume, volume);
         } else {
+            pendingVolume = volume;
             String errorMessage = "AudioPlayer Error: Cannot set volume until the audio file is initialized.";
             sendErrorStatus(MEDIA_ERR_NONE_ACTIVE, errorMessage);
         }
