@@ -888,7 +888,6 @@ BOOL keepAvAudioSessionAlwaysActive = NO;
         // This seems to prevent multiple audio files on iOS.
         // [self.avSession setActive:NO error:nil];
     }
-    [self.commandDelegate evalJs:jsString];
 }
 
 -(void)itemDidFinishPlaying:(NSNotification *) notification {
@@ -899,7 +898,7 @@ BOOL keepAvAudioSessionAlwaysActive = NO;
     // if (self.avSession) {
     //     [self.avSession setActive:NO error:nil];
     // }
-    [self.commandDelegate evalJs:jsString];
+    [self onStatus:MEDIA_STATE mediaId:mediaId param:@(MEDIA_STOPPED)];
 }
 
 -(void)itemStalledPlaying:(NSNotification *) notification {
