@@ -34,7 +34,6 @@ import android.os.Build;
 import android.util.JsonReader;
 import android.util.Log;
 
-
 import java.security.Permission;
 import java.util.ArrayList;
 
@@ -66,8 +65,7 @@ public class AudioHandler extends CordovaPlugin {
     private int origVolumeStream = -1;
     private CallbackContext messageChannel;
 
-
-    public static String [] permissions = { Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    // Permission Request Codes
     public static int RECORD_AUDIO = 0;
     public static int WRITE_EXTERNAL_STORAGE = 1;
 
@@ -85,16 +83,8 @@ public class AudioHandler extends CordovaPlugin {
         this.pausedForFocus = new ArrayList<AudioPlayer>();
     }
 
-
-    protected void getWritePermission(int requestCode)
-    {
-        PermissionHelper.requestPermission(this, requestCode, permissions[WRITE_EXTERNAL_STORAGE]);
-    }
-
-
-    protected void getMicPermission(int requestCode)
-    {
-        PermissionHelper.requestPermission(this, requestCode, permissions[RECORD_AUDIO]);
+    public Context getApplicationContext() {
+        return cordova.getActivity().getApplicationContext();
     }
 
 
@@ -197,6 +187,10 @@ public class AudioHandler extends CordovaPlugin {
         } else if (action.equals("getCurrentAmplitudeAudio")) {
             float f = this.getCurrentAmplitudeAudio(args.getString(0));
             callbackContext.sendPluginResult(new PluginResult(status, f));
+            return true;
+        }
+        else if (action.equals("setRate")) {
+            this.setRate(args.getString(0), Float.parseFloat(args.getString(1)));
             return true;
         }
         else { // Unrecognized action.
@@ -511,6 +505,23 @@ public class AudioHandler extends CordovaPlugin {
         }
     }
 
+    /**
+     * Set the playback rate of an audio file
+     * 
+     * @param id   The id of the audio player
+     * @param rate The playback rate
+     */
+    public void setRate(String id, float rate) {
+        String TAG3 = "AudioHandler.setRate(): Error : ";
+        AudioPlayer audio = this.players.get(id);
+        if (audio != null) {
+            audio.setRate(rate);
+        } else {
+            LOG.e(TAG3, "Unknown Audio Player " + id);
+        }
+    }
+    
+
     private void onFirstPlayerCreated() {
         origVolumeStream = cordova.getActivity().getVolumeControlStream();
         cordova.getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -562,19 +573,22 @@ public class AudioHandler extends CordovaPlugin {
 
     private void promptForRecord()
     {
-        if(PermissionHelper.hasPermission(this, permissions[WRITE_EXTERNAL_STORAGE])  &&
-                PermissionHelper.hasPermission(this, permissions[RECORD_AUDIO])) {
-            this.startRecordingAudio(recordId, FileHelper.stripFileProtocol(fileUriStr));
-        }
-        else if(PermissionHelper.hasPermission(this, permissions[RECORD_AUDIO]))
-        {
-            getWritePermission(WRITE_EXTERNAL_STORAGE);
-        }
-        else
-        {
-            getMicPermission(RECORD_AUDIO);
+        // If Android < 33, check for WRITE_EXTERNAL_STORAGE permission
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            if (!PermissionHelper.hasPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                PermissionHelper.requestPermission(this, WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                return;
+            }
         }
 
+        // For all Android versions, check for RECORD_AUDIO permission
+        if (!PermissionHelper.hasPermission(this, Manifest.permission.RECORD_AUDIO)) {
+            PermissionHelper.requestPermission(this, RECORD_AUDIO, Manifest.permission.RECORD_AUDIO);
+            return;
+        }
+
+        // Start recording if all necessary permissions were granted.
+        this.startRecordingAudio(recordId, FileHelper.stripFileProtocol(fileUriStr));
     }
 
     /**
